@@ -13,7 +13,7 @@ pipeline {
             steps {
                 script {
                     sh 'docker stop $(docker ps -a | grep super-duper-app | awk "{print $1}") || true'
-                    sh 'docker run -d -p 8080:8080 customImage'
+                    sh 'docker run -d -p 8080:8080 ${customImage}'
                 }
             }
         }
