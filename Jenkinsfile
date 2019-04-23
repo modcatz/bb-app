@@ -6,10 +6,16 @@ pipeline {
             steps {
                 script {
                     def customImage = docker.build("super-duper-app:${env.BUILD_ID}")
-                    customImage.push()
                 }
             }
         }
-
+        stage('Deploy image') {
+            steps {
+                script {
+                    sh 'docker stop $(docker ps -a | grep super-duper-app | awk "{print $1}")'
+                    sh 'docker run -d -p 8080:8080 customImage'
+                }
+            }
+        }
 	}
 }
